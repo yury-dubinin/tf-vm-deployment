@@ -1,3 +1,2 @@
 location = "northeurope"
-subscriptionId = "91dbb435-f92a-465c-8684-49546e6914a7"
-resourceGroupName = "test"
+subscriptionId = "22359f5e-af77-4c86-a1ae-f82408ae3bf0"
