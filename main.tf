@@ -34,17 +34,6 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "RDP"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "3389"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  security_rule {
     name                       = "web"
     priority                   = 1001
     direction                  = "Inbound"
@@ -55,6 +44,16 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+}
+
+module "network-security-group_RDP" {
+  source  = "Azure/network-security-group/azurerm//modules/RDP"
+  version = "3.2.1"
+}
+
+module "network-security-group_WinRM" {
+  source  = "Azure/network-security-group/azurerm//modules/WinRM"
+  version = "3.2.1"
 }
 
 # Create network interface
@@ -90,8 +89,8 @@ resource "azurerm_storage_account" "my_storage_account" {
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
-  admin_username        = "azureuser"
-  admin_password        = random_password.password.result
+  admin_username        = "azureadmin"
+  admin_password        = "azureadmin1"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
@@ -124,15 +123,6 @@ resource "random_id" "random_id" {
   }
 
   byte_length = 8
-}
-
-resource "random_password" "password" {
-  length      = 12
-  min_lower   = 1
-  min_upper   = 1
-  min_numeric = 1
-  min_special = 1
-  special     = true
 }
 
 resource "random_pet" "prefix" {
