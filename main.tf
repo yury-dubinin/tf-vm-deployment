@@ -32,28 +32,20 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "${random_pet.prefix.id}-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
-  security_rule {
-    name                       = "web"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "80"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
 }
 
 module "network-security-group_RDP" {
   source  = "Azure/network-security-group/azurerm//modules/RDP"
   version = "3.2.1"
+  resource_group_name = azurerm_resource_group.rg.name
+  security_group_name = azurerm_network_security_group.my_terraform_nsg.name
 }
 
 module "network-security-group_WinRM" {
   source  = "Azure/network-security-group/azurerm//modules/WinRM"
   version = "3.2.1"
+  resource_group_name = azurerm_resource_group.rg.name
+  security_group_name = azurerm_network_security_group.my_terraform_nsg.name
 }
 
 # Create network interface
