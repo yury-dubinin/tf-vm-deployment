@@ -32,8 +32,7 @@ module "network-security-group_RDP" {
   version             = "3.6.0"
   resource_group_name = azurerm_resource_group.rg.name
   custom_rules = [{
-    name     = "RDP"
-    priority = 502
+    priority = 1000
   }, ]
 }
 
