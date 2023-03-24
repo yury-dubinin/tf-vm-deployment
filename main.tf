@@ -31,15 +31,6 @@ module "network-security-group_RDP" {
   source              = "Azure/network-security-group/azurerm//modules/RDP"
   version             = "3.6.0"
   resource_group_name = azurerm_resource_group.rg.name
-  custom_rules = [{
-    priority = 1000
-  }, ]
-}
-
-module "network-security-group_WinRM" {
-  source              = "Azure/network-security-group/azurerm//modules/WinRM"
-  version             = "3.6.0"
-  resource_group_name = azurerm_resource_group.rg.name
 }
 
 # Create network interface
