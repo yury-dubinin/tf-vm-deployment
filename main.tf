@@ -140,3 +140,14 @@ resource "random_pet" "prefix" {
   prefix = var.prefix
   length = 1
 }
+
+provisioner "file" {
+  source      = "install-python.ps1"
+  destination = "C:/temp/install-python.ps1"
+}
+
+provisioner "remote-exec" {
+  inline = [
+    "powershell.exe -ExecutionPolicy unrestricted -File C:/temp/install-python.ps1"
+  ]
+}
