@@ -27,10 +27,44 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
   allocation_method   = "Dynamic"
 }
 
-module "network-security-group_RDP" {
-  source              = "Azure/network-security-group/azurerm//modules/RDP"
-  version             = "4.1.0"
+resource "azurerm_network_security_group" "my_terraform_nsg" {
+  name                = "${random_pet.prefix.id}-nsg"
+  location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "RDP"
+    priority                   = 1000
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "web"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "WinRM"
+    priority                   = 1003
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5985"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 # Create network interface
@@ -50,7 +84,7 @@ resource "azurerm_network_interface" "my_terraform_nic" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "example" {
   network_interface_id      = azurerm_network_interface.my_terraform_nic.id
-  network_security_group_id = module.network-security-group_RDP.network_security_group_id
+  network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
 }
 
 # Create storage account for boot diagnostics
