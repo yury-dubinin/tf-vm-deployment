@@ -120,30 +120,23 @@ resource "azurerm_windows_virtual_machine" "main" {
     version   = "latest"
   }
 
-  connection {
-    host = "${azurerm_public_ip.my_terraform_public_ip.ip_address}"
-    type     = "winrm"
-    user     = "azureadmin"
-    password = "Azureadmin1."
-    timeout  = "1m"
-    https    = true
-    insecure = true
-  }
-
-  provisioner "file" {
-    source      = "install-python.ps1"
-    destination = "C:/temp/install-python.ps1"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "powershell.exe -ExecutionPolicy unrestricted -File C:/temp/install-python.ps1"
-    ]
-  }
-
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
   }
+
+  resource "azurerm_virtual_machine_extension" "python" {
+  name                 = "install_python"
+  virtual_machine_id   = azurerm_windows_virtual_machine.main.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
+
+  settings = <<SETTINGS
+    {
+        "fileUris": ["https://github.com/yury-dubinin/tf-vm-deployment/blob/main/install-python.ps1"],
+        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file install-python.ps1 -EnableCredSSP -DisableBasicAuth"
+    }
+SETTINGS
 }
 
 # Generate random text for a unique storage account name
