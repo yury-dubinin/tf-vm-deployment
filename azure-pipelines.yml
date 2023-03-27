@@ -20,3 +20,8 @@ steps:
     ls -a
     terraform init
   displayName: 'Init Terraform'
+
+- script: |
+    ls -a
+    terraform validate
+  displayName: 'Validate Terraform'
