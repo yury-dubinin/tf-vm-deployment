@@ -5,8 +5,7 @@ basic template to deploy Win Server with RDP and WinRM
 
 <img width="921" alt="Screenshot 2023-03-27 at 10 19 35" src="https://user-images.githubusercontent.com/62520712/227883418-124f6b3e-bb41-4828-8373-c8e8ceb07191.png">
 
-<img width="921" alt="Screenshot 2023-03-27 at 10 19 35" src="https://user-images.githubusercontent.com/62520712/227889406-a632fc64-a0d1-449c-ab1e-2febdd52c116.png">
-
+<img width="1004" alt="Screenshot 2023-03-27 at 10 42 05" src="https://user-images.githubusercontent.com/62520712/227889543-631aa925-f1c8-4cc4-a3d0-cb6b2bb4e089.png">
 
 ## check it
 
