@@ -100,7 +100,7 @@ resource "azurerm_storage_account" "my_storage_account" {
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
-  admin_username        = "azureadmin"
+  admin_username        = "Azureadmin"
   admin_password        = "Azureadmin1."
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
@@ -123,21 +123,6 @@ resource "azurerm_windows_virtual_machine" "main" {
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
   }
-}
-
-resource "azurerm_virtual_machine_extension" "python" {
-  name                 = "install_python"
-  virtual_machine_id   = azurerm_windows_virtual_machine.main.id
-  publisher            = "Microsoft.Compute"
-  type                 = "CustomScriptExtension"
-  type_handler_version = "1.9"
-
-  settings = <<SETTINGS
-    {
-        "fileUris": ["https://github.com/yury-dubinin/tf-vm-deployment/blob/main/install-python.ps1"],
-        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file install-python.ps1 -EnableCredSSP -DisableBasicAuth"
-    }
-SETTINGS
 }
 
 # Generate random text for a unique storage account name
