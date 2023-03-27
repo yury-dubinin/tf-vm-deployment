@@ -120,6 +120,16 @@ resource "azurerm_windows_virtual_machine" "main" {
     version   = "latest"
   }
 
+  provisioner "file" {
+    source      = "install-python.ps1"
+    destination = "C:/temp/install-python.ps1"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "powershell.exe -ExecutionPolicy unrestricted -File C:/temp/install-python.ps1"
+    ]
+  }
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.my_storage_account.primary_blob_endpoint
@@ -139,15 +149,4 @@ resource "random_id" "random_id" {
 resource "random_pet" "prefix" {
   prefix = var.prefix
   length = 1
-}
-
-provisioner "file" {
-  source      = "install-python.ps1"
-  destination = "C:/temp/install-python.ps1"
-}
-
-provisioner "remote-exec" {
-  inline = [
-    "powershell.exe -ExecutionPolicy unrestricted -File C:/temp/install-python.ps1"
-  ]
 }
