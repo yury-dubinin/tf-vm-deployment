@@ -100,8 +100,8 @@ resource "azurerm_storage_account" "my_storage_account" {
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
-  admin_username        = "Azureadmin"
-  admin_password        = "Azureadmin1."
+  admin_username        = "azureadmin"
+  admin_password        = "azureadminA1."
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
