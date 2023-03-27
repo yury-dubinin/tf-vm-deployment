@@ -120,17 +120,8 @@ resource "azurerm_windows_virtual_machine" "main" {
     version   = "latest"
   }
 
-  os_profile {
-    computer_name  = "examplevm"
-    admin_username = "azureadmin"
-    admin_password = "Azureadmin1."
-  }
-
-  os_profile_windows_config {
-    provision_vm_agent = true
-  }
-
   connection {
+    host = "${azurerm_network_interface.my_terraform_nic.private_ip_address}"
     type     = "winrm"
     user     = "azureadmin"
     password = "Azureadmin1."
