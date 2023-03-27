@@ -121,7 +121,7 @@ resource "azurerm_windows_virtual_machine" "main" {
   }
 
   connection {
-    host = "${azurerm_network_interface.my_terraform_nic.private_ip_address}"
+    host = "${azurerm_public_ip.my_terraform_public_ip.ip_address}"
     type     = "winrm"
     user     = "azureadmin"
     password = "Azureadmin1."
