@@ -1,4 +1,10 @@
 # tf-vm-deployment
+basic template to deploy Win Server with RDP and WinRM
+
+## Current state after deployment
+
+<img width="921" alt="Screenshot 2023-03-27 at 10 19 35" src="https://user-images.githubusercontent.com/62520712/227883418-124f6b3e-bb41-4828-8373-c8e8ceb07191.png">
+
 
 ## check it
 
