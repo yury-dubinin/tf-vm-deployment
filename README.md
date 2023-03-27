@@ -15,3 +15,5 @@ basic template to deploy Win Server with RDP and WinRM
 - https://github.com/NoBSDevOps/BookResources/blob/master/Part-II-Project/Virtual-Machines/Ansible-Configuration/iis.yml
 - https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1
 - https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/virtual-machines/windows/vm-custom-extension/main.tf
+- https://github.com/jmassardo/Azure-WinRM-Terraform
+- https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples
