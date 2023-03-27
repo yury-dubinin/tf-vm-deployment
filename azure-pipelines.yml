@@ -14,15 +14,3 @@ steps:
     sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
     sudo apt-get update && sudo apt-get install terraform -y
   displayName: 'Install Terraform'
-
-- task: TerraformCLI@0
-  inputs:
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-  displayName: 'Terraform Init'
-
-- task: TerraformCLI@0
-  inputs:
-    command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-  displayName: 'Terraform Validate'
