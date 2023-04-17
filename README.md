@@ -1,5 +1,5 @@
 # tf-vm-deployment
-basic template to deploy Win Server with RDP and WinRM
+basic template to deploy Win Server with RDP and WinRM and Linux VM with access over SSH
 
 ## Current state after deployment
 
