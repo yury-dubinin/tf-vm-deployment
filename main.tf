@@ -81,10 +81,47 @@ resource "azurerm_network_interface" "my_terraform_nic" {
   }
 }
 
+resource "azurerm_network_security_group" "linux_terraform_nsg" {
+  name                = "linuxNetworkSecurityGroup"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Create network interface
+resource "azurerm_network_interface" "linux_terraform_nic" {
+  name                = "linuxNIC"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "linux_nic_configuration"
+    subnet_id                     = azurerm_subnet.my_terraform_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
+  }
+}
+
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
+resource "azurerm_network_interface_security_group_association" "winVM" {
   network_interface_id      = azurerm_network_interface.my_terraform_nic.id
   network_security_group_id = azurerm_network_security_group.my_terraform_nsg.id
+}
+
+resource "azurerm_network_interface_security_group_association" "linuxVW" {
+  network_interface_id      = azurerm_network_interface.linux_terraform_nic.id
+  network_security_group_id = azurerm_network_security_group.linux_terraform_nsg.id
 }
 
 # Create storage account for boot diagnostics
