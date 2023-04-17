@@ -21,14 +21,14 @@ resource "azurerm_subnet" "my_terraform_subnet" {
 
 # Create public IPs
 resource "azurerm_public_ip" "my_terraform_public_ip" {
-  name                = "${random_pet.prefix.id}-public-ip"
+  name                = "${random_pet.prefix.id}-win-public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
 }
 
 resource "azurerm_public_ip" "linux_terraform_public_ip" {
-  name                = "${random_pet.prefix.id}-public-ip"
+  name                = "${random_pet.prefix.id}-linux-public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
@@ -76,15 +76,28 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
 
 # Create network interface
 resource "azurerm_network_interface" "my_terraform_nic" {
-  name                = "${random_pet.prefix.id}-nic"
+  name                = "${random_pet.prefix.id}-win-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "my_nic_configuration"
+    name                          = "win_nic_configuration"
     subnet_id                     = azurerm_subnet.my_terraform_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
+  }
+}
+
+resource "azurerm_network_interface" "linux_terraform_nic" {
+  name                = "${random_pet.prefix.id}-linux-nic"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "linux_nic_configuration"
+    subnet_id                     = azurerm_subnet.my_terraform_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.linux_terraform_public_ip.id
   }
 }
 
@@ -103,20 +116,6 @@ resource "azurerm_network_security_group" "linux_terraform_nsg" {
     destination_port_range     = "22"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
-  }
-}
-
-# Create network interface
-resource "azurerm_network_interface" "linux_terraform_nic" {
-  name                = "linuxNIC"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  ip_configuration {
-    name                          = "linux_nic_configuration"
-    subnet_id                     = azurerm_subnet.my_terraform_subnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.linux_terraform_public_ip.id
   }
 }
 
@@ -139,7 +138,6 @@ resource "azurerm_storage_account" "my_storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
-
 
 # Create Windows virtual machine
 resource "azurerm_windows_virtual_machine" "main" {
