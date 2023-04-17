@@ -27,6 +27,13 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
   allocation_method   = "Dynamic"
 }
 
+resource "azurerm_public_ip" "linux_terraform_public_ip" {
+  name                = "${random_pet.prefix.id}-public-ip"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "${random_pet.prefix.id}-nsg"
   location            = azurerm_resource_group.rg.location
@@ -109,7 +116,7 @@ resource "azurerm_network_interface" "linux_terraform_nic" {
     name                          = "linux_nic_configuration"
     subnet_id                     = azurerm_subnet.my_terraform_subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.my_terraform_public_ip.id
+    public_ip_address_id          = azurerm_public_ip.linux_terraform_public_ip.id
   }
 }
 
