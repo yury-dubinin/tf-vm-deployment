@@ -151,7 +151,7 @@ resource "azurerm_windows_virtual_machine" "main" {
   size                  = "Standard_B2s"
 
   os_disk {
-    name                 = "myOsDisk"
+    name                 = "winOsDisk"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
@@ -182,7 +182,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   size                  = "Standard_B2s"
 
   os_disk {
-    name                 = "myOsDisk"
+    name                 = "linuxOsDisk"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
