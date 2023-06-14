@@ -10,7 +10,8 @@ set -x
 
 exec &>> /var/log/postinstall.log
 echo "Script started at $(date +%F_%H-%M-%S)"
-sudo dnf install -y git compat-openssl10 libaio
+sudo dnf install -y git 
+sudo dnf install -y compat-openssl10 libaio
 
 git -v
 
