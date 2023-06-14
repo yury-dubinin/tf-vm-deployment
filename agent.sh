@@ -28,7 +28,7 @@ ls -all
 echo "Install dependencies for Azure DevOps Agent"
 sudo ~/bin/installdependencies.sh
 echo "Install Config for Azure DevOps Agent"
-~/config.cmd --unattended --acceptTeeEula --agent 'ADO-AGENT-RHEL8' --pool 'AZR-NN-XAAS-POC' --replace --url "https://dev.azure.com/$ADO_ORG" --auth 'PAT' --token "$ADO_TOKEN"
+~/config.sh --unattended --acceptTeeEula --agent 'ADO-AGENT-RHEL8' --pool 'AZR-NN-XAAS-POC' --replace --url "https://dev.azure.com/$ADO_ORG" --auth 'PAT' --token "$ADO_TOKEN"
 
 sudo ~/svc.sh install
 sudo ~/svc.sh start
