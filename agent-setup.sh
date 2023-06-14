@@ -4,7 +4,7 @@
 # Please don't include any credentials or secrets in this script
 
 ADO_ORG=$1
-ADO_TOKEN=$1
+ADO_TOKEN=$2
 
 set -x
 
